@@ -176,6 +176,8 @@ function setupEventListeners() {
   elements.saveTaskChangesBtn.addEventListener('click', () => {
     if (currentTaskId) {
       saveTaskChanges(currentTaskId);  // Pass the current task ID
+      refreshTasksUI();
+      toggleModal(true, elements.editTaskModal);
     }
   });
   
