@@ -22,29 +22,30 @@ function initializeData() {
 
 // Get elements from the DOM and store them in an object for easy access
 const elements = {
+  editSelectStatus: document.getElementById("edit-select-status"),
+  filterDiv: document.getElementById("filterDiv"),
+  deleteTaskBtn: document.getElementById("delete-task-btn"),
+  hideSideBarBtn: document.getElementById("hide-side-bar-btn"),
+  showSideBarBtn: document.getElementById("show-side-bar-btn"),
+  themeSwitch: document.getElementById("switch"),
+  addNewTaskBtn: document.getElementById("add-new-task-btn"),
   sideBar: document.getElementById("side-bar-div"),
   logo: document.getElementById("logo"),
   headerBoardName: document.getElementById("header-board-name"),
   editBoardBtn: document.getElementById("edit-board-btn"),
   editBoardDiv: document.getElementById("editBoardDiv"),
   columnDivs: document.querySelectorAll(".column-div"),
-  hideSideBarBtn: document.getElementById("hide-side-bar-btn"),
-  showSideBarBtn: document.getElementById("show-side-bar-btn"),
-  themeSwitch: document.getElementById("switch"),
-  addNewTaskBtn: document.getElementById("add-new-task-btn"),
   modalWindow: document.getElementById("new-task-modal-window"),
   titleInput: document.getElementById("title-input"),
   descInput: document.getElementById("desc-input"),
   statusInput: document.getElementById("select-status"),
+ saveTaskChangesBtn: document.getElementById("save-task-changes-btn"),
   createTaskBtn: document.getElementById("create-task-btn"),
   cancelAddTaskBtn: document.getElementById("cancel-add-task-btn"),
-  editTaskModal: document.getElementsByClassName("edit-task-modal-window")[0],
   editTaskTitleInput: document.getElementById("edit-task-title-input"),
   editTaskDescInput: document.getElementById("edit-task-desc-input"),
-  editSelectStatus: document.getElementById("edit-select-status"),
-  filterDiv: document.getElementById("filterDiv"),
-  saveTaskChangesBtn: document.getElementById("save-task-changes-btn"),
-  deleteTaskBtn: document.getElementById("delete-task-btn"),
+  editTaskModal: document.getElementsByClassName("edit-task-modal-window")[0],
+  
 };
 
 let activeBoard = ""; // Variable to hold the currently active board
@@ -94,7 +95,7 @@ function filterAndDisplayTasksByBoard(boardName) {
       column.innerHTML = `<div class="column-head-div">
                           <span class="dot" id="${status}-dot"></span>
                           <h4 class="columnHeader">${status.toUpperCase()}</h4>
-                        </div>`; // Set column header
+                        </div>`; 
 
       const tasksContainer = document.createElement("div"); // Create a container for tasks
       column.appendChild(tasksContainer); // Append tasks container to column
@@ -102,7 +103,7 @@ function filterAndDisplayTasksByBoard(boardName) {
       // Filter tasks by status and populate the column
       filteredTasks.filter(task => task.status === status).forEach(task => {
           const taskElement = document.createElement("div"); // Create a task element
-          taskElement.classList.add("task-div"); // Add CSS class for styling
+          taskElement.classList.add("task-div"); 
           taskElement.textContent = task.title; // Set task title
           taskElement.setAttribute("data-task-id", task.id); // Store task ID in attribute
 
@@ -213,7 +214,11 @@ function setupEventListeners() {
 
 // Toggles tasks modal visibility
 function toggleModal(show, modal = elements.modalWindow) {
-  modal.style.display = show ? 'block' : 'none'; // Show or hide the modal based on the parameter
+  if (show) {
+      modal.style.display = 'block'; // Show the modal
+  } else {
+      modal.style.display = 'none'; // Hide the modal
+  }
 }
 
 /*************************************************
@@ -244,10 +249,17 @@ function addTask(event) {
 
 // Function to toggle the sidebar visibility
 function toggleSidebar(show) {
-  elements.showSideBarBtn.style.display = show ? 'none' : 'block'; // Show or hide the show button
-  elements.sideBar.style.display = show ? 'block' : 'none'; // Show or hide the sidebar
-  elements.hideSideBarBtn.style.display = show ? 'block' : 'none'; // Show or hide the hide button
+  if (show) {
+      elements.showSideBarBtn.style.display = 'none'; // Hide the show button
+      elements.sideBar.style.display = 'block'; // Show the sidebar
+      elements.hideSideBarBtn.style.display = 'block'; // Show the hide button
+  } else {
+      elements.showSideBarBtn.style.display = 'block'; // Show the show button
+      elements.sideBar.style.display = 'none'; // Hide the sidebar
+      elements.hideSideBarBtn.style.display = 'none'; // Hide the hide button
+  }
 }
+
 
 // Function to switch the theme
 function toggleTheme(event) {
